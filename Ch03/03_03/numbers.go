@@ -13,7 +13,10 @@ func FindNums(text string) ([]int, error) {
 	for _, s := range numRe.FindAllString(text, -1) {
 		n, err := strconv.Atoi(s)
 		if err != nil {
-			return nil, err
+			n, err = arAtoi(s)
+			if err != nil {
+				return nil, err
+			}
 		}
 		nums = append(nums, n)
 	}
