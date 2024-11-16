@@ -36,12 +36,21 @@ func ParseGraph(r io.Reader) (map[string][]string, error) {
 }
 
 func parseLine(line string) (string, string, error) {
+	/* Option 1: Index + len
 	i := strings.Index(line, "→")
 	if i == -1 {
 		return "", "", fmt.Errorf("%q: no → in line", line)
 	}
 
 	src := strings.TrimSpace(line[:i])
-	dest := strings.TrimSpace(line[i+1:])
+	dest := strings.TrimSpace(line[i+len("→"):])
 	return src, dest, nil
+	*/
+
+	src, dest, found := strings.Cut(line, "→")
+		if !found {
+		return "", "", fmt.Errorf("%q: no → in line", line)
+	}
+
+	return strings.TrimSpace(src), strings.TrimSpace(dest),  nil
 }
